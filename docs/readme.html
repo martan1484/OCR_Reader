@@ -3,402 +3,188 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>XML_2_TXT Converter � Documentation</title>
+<title>OCR Reader – Documentation</title>
 
 <style>
 body{
-    font-family:Arial,Helvetica,sans-serif;
-    margin:40px auto;
-    max-width:900px;
-    line-height:1.6
+font-family: Arial, Helvetica, sans-serif;
+max-width: 900px;
+margin: 40px auto;
+line-height: 1.6;
+padding: 0 15px;
 }
-
-h1{margin-bottom:5px}
-
-nav{
-    margin-bottom:30px
+h1,h2,h3{color:#222}
+code, pre{
+background:#f4f4f4;
+padding:10px;
+border-radius:6px;
+display:block;
+overflow-x:auto;
 }
-
-nav a{
-    margin-right:15px;
-    text-decoration:none;
-    color:#0066cc
-}
-
-nav a:hover{
-    text-decoration:underline
-}
-
-section{
-    margin-top:50px
-}
-
 .card{
-    background:#fafafa;
-    padding:20px;
-    border-radius:8px;
-    border:1px solid #eee
-}
-
-code,pre{
-    background:#f4f4f4;
-    padding:10px;
-    border-radius:6px;
-    display:block;
-    overflow-x:auto
-}
-
-table{
-    border-collapse:collapse;
-    width:100%;
-    margin-top:10px
-}
-
-table,th,td{
-    border:1px solid #ddd
-}
-
-th,td{
-    padding:8px;
-}
-
-footer{
-    margin-top:60px;
-    font-size:0.9em;
-    color:#555
+background:#fafafa;
+border:1px solid #eee;
+padding:15px;
+border-radius:8px;
+margin-bottom:20px;
 }
 </style>
-
 </head>
+
 <body>
 
-<h1>XML � TXT Converter</h1>
-<p><strong>Documentation</strong></p>
-
-<nav>
-<a href="index.html">Product Page</a>
-</nav>
-
-<section>
+<h1>OCR Reader – Documentation</h1>
 
 <div class="card">
 <h2>Overview</h2>
-
 <p>
-A lightweight tool for converting structured XML data into TXT files
-using a flexible configuration file.
+OCR Reader is a Windows desktop application for extracting text from PDFs and images using OCR (Tesseract engine).
+It supports template-driven parsing and exports structured data into CSV or TXT files.
 </p>
+</div>
 
+<div class="card">
+<h2>Installation</h2>
+
+<h3>1. Download package</h3>
 <p>
-The program reads an XML file and generates one or more TXT files
-according to rules defined in <code>config.ini</code>.
+Download the latest release package containing:
 </p>
+<ul>
+<li>OCR_Reader.exe</li>
+<li>tesseract folder</li>
+<li>poppler folder</li>
+<li>config.yaml example</li>
+</ul>
 
+<h3>2. Folder structure</h3>
+<pre>
+OCR_Reader/
+ ├── OCR_Reader.exe
+ ├── config.yaml
+ ├── tools/
+ │    ├── tesseract/
+ │    │     └── tesseract.exe
+ │    └── poppler/
+ └── input/
+</pre>
+
+<h3>3. First run</h3>
 <p>
-The configuration file must be located in the same directory
-as the executable and saved in UTF-8 encoding.
+Run <b>OCR_Reader.exe</b>. On first start the application will load configuration from <code>config.yaml</code>.
 </p>
 
 </div>
 
-</section>
-
-
-<section>
-
-<h2>Features</h2>
+<div class="card">
+<h2>Requirements</h2>
 
 <ul>
-<li>Convert XML data into TXT tables</li>
-<li>Fully configurable output structure</li>
-<li>Supports nested XML structures</li>
-<li>Table grouping with separators</li>
-<li>Merge multiple XML records into a single output line</li>
-<li>Works on Windows and Linux</li>
-<li>Can be compiled into a standalone executable</li>
+<li>Windows 10 / 11</li>
+<li>Tesseract OCR (bundled or external)</li>
+<li>Poppler (for PDF processing)</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Configuration (YAML)</h2>
+
+<p>
+The application is configured using a <code>config.yaml</code> file.
+</p>
+
+<h3>Example configuration</h3>
+
+<pre>
+tesseract_path: tools/tesseract/tesseract.exe
+poppler_path: tools/poppler/bin
+
+input_folder: input
+output_folder: output
+
+output_format: csv   # csv | txt
+
+language: eng
+
+batch_mode: true
+
+template:
+  name: invoice_template
+  fields:
+    invoice_number:
+      type: text
+      pattern: "Invoice No:\\s*(.*)"
+    date:
+      type: text
+      pattern: "Date:\\s*(.*)"
+    total:
+      type: number
+      pattern: "Total:\\s*([0-9.,]+)"
+</pre>
+
+</div>
+
+<div class="card">
+<h2>YAML Parameters Explained</h2>
+
+<h3>Paths</h3>
+<ul>
+<li><b>tesseract_path</b> – path to tesseract.exe</li>
+<li><b>poppler_path</b> – path to Poppler binaries (PDF rendering)</li>
+<li><b>input_folder</b> – folder with input files (PDF/images)</li>
+<li><b>output_folder</b> – output directory for results</li>
 </ul>
 
-</section>
+<h3>Processing</h3>
+<ul>
+<li><b>output_format</b> – output type (csv or txt)</li>
+<li><b>language</b> – OCR language (e.g. eng, deu, ces)</li>
+<li><b>batch_mode</b> – enables processing of multiple files</li>
+</ul>
 
+<h3>Template section</h3>
+<ul>
+<li><b>template.name</b> – name of active extraction template</li>
+<li><b>fields</b> – dictionary of extracted values</li>
+</ul>
 
-<section>
+<h3>Field properties</h3>
+<ul>
+<li><b>type</b> – data type (text, number)</li>
+<li><b>pattern</b> – regex used to extract value from OCR text</li>
+</ul>
 
+</div>
+
+<div class="card">
 <h2>How it works</h2>
-
-<p>
-Each section in <code>config.ini</code> generates one TXT output file.
-</p>
-
-<pre>
-[BusStops_Station]
-</pre>
-
-<p>Produces:</p>
-
-<pre>
-BusStops_Station.txt
-</pre>
-
-<p>
-The converter reads XML elements and formats them into TXT rows
-based on configuration rules.
-</p>
-
-</section>
-
-
-<section>
-
-<h2>General settings</h2>
-
-<pre>
-[General]
-output_location = 1
-</pre>
-
-<p>Determines where the output folder is created.</p>
-
-<table>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-
-<tr>
-<td>0</td>
-<td>output folder next to input XML</td>
-</tr>
-
-<tr>
-<td>1</td>
-<td>output folder next to executable</td>
-</tr>
-
-</table>
-
-</section>
-
-
-<section>
-
-<h2>Standard processing</h2>
-
-<p>
-Standard mode means:
-</p>
-
-<p><strong>1 XML item = 1 output row</strong></p>
-
-<pre>
-[BusStops_Station]
-
-section = BusStops
-item = BusStop
-key = Station
-fields = ID,"NameFull (ZoneID)","NameFull (ZoneID)"
-</pre>
-
-<h3>Parameters</h3>
-
-<table>
-
-<tr>
-<th>Parameter</th>
-<th>Meaning</th>
-</tr>
-
-<tr>
-<td>section</td>
-<td>XML container element</td>
-</tr>
-
-<tr>
-<td>item</td>
-<td>repeating XML element</td>
-</tr>
-
-<tr>
-<td>key</td>
-<td>text before "=" in output</td>
-</tr>
-
-<tr>
-<td>fields</td>
-<td>output template</td>
-</tr>
-
-</table>
-
-<p>Example output:</p>
-
-<pre>
-Station=123,"Main Street (1)","Main Street (1)"
-</pre>
-
-</section>
-
-
-<section>
-
-<h2>Fields syntax</h2>
-
-<p>Fields are separated by commas.</p>
-
-<table>
-
-<tr>
-<th>Syntax</th>
-<th>Meaning</th>
-</tr>
-
-<tr>
-<td>ID</td>
-<td>XML attribute or element value</td>
-</tr>
-
-<tr>
-<td>"text"</td>
-<td>constant text</td>
-</tr>
-
-<tr>
-<td>empty</td>
-<td>empty column</td>
-</tr>
-
-<tr>
-<td>field@Item</td>
-<td>reference to another XML element</td>
-</tr>
-
-</table>
-
-<p>Examples:</p>
-
-<pre>
-fields = ID
-fields = ID,"NameFull"
-fields = ID,"NameFull (ID)"
-fields = SuperID@Zone,,ID@Zone
-</pre>
-
-</section>
-
-
-<section>
-
-<h2>Nested XML access</h2>
-
-<p>
-If elements are deeper in the XML hierarchy,
-use the <code>parent</code> parameter.
-</p>
-
-<pre>
-parent = Tariffs/Tariff/PriceTable/Data
-</pre>
-
-</section>
-
-
-<section>
-
-<h2>Table grouping</h2>
-
-<p>
-XML may contain multiple tables inside one structure.
-Use <code>group</code> and <code>separator</code>.
-</p>
-
-<pre>
-group = PriceTable
-
-separator =
-ID@Tariffs/Tariff,
-Name@Tariffs/Tariff,
-Payment@Tariffs/Tariff/PriceTable
-</pre>
-
-<p>Example output:</p>
-
-<pre>
-1,City Tariff,Cash,QR
-Price=1,21.00,60
-Price=2,25.00,90
-</pre>
-
-</section>
-
-
-<section>
-
-<h2>MERGE processing</h2>
-
-<p>
-Merge mode combines multiple XML records into one output row.
-</p>
-
-<pre>
-[Zones_MainZone]
-
-type = merge
-
-section = Zones
-item = Zone
-
-key = MainZone
-fields = SuperID@Zone,,ID@Zone;"Name@SuperZone"
-
-group_by = SuperID
-value = ID
-</pre>
-
-<p>Example output:</p>
-
-<pre>
-MainZone=10,,101,102,103;"Central"
-</pre>
-
-</section>
-
-
-<section>
-
-<h2>Running the program</h2>
-
 <ol>
-
-<li>Select an XML file</li>
-<li>The program loads <code>config.ini</code></li>
-<li>TXT files are generated in the <code>output</code> directory</li>
-
+<li>Load PDF or image</li>
+<li>Convert to image (Poppler if needed)</li>
+<li>Run OCR (Tesseract)</li>
+<li>Apply template regex rules</li>
+<li>Export structured output</li>
 </ol>
+</div>
 
-</section>
+<div class="card">
+<h2>Output Example</h2>
 
+<pre>
+invoice_number, date, total
+INV-1023, 2026-04-10, 1250.50
+</pre>
 
-<section>
+</div>
 
-<h2>Future improvements</h2>
-
-<ul>
-
-<li>command line parameters</li>
-<li>batch processing</li>
-<li>optional logging</li>
-<li>configuration validation</li>
-
-</ul>
-
-</section>
-
-
-<footer>
-
-<p><strong>Martin Nezval Software</strong></p>
-
-</footer>
+<div class="card">
+<h2>Support</h2>
+<p>
+For custom templates or integration help, contact:
+<br>
+<b>nezval.software@gmail.com</b>
+</p>
+</div>
 
 </body>
 </html>
-
