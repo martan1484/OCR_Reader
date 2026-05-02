@@ -1,84 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>How to Configure a Table Template</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 40px;
-            max-width: 800px;
-        }
-        h1, h2 {
-            color: #2c3e50;
-        }
-        ul, ol {
-            margin-left: 20px;
-        }
-        .section {
-            margin-bottom: 30px;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>OCR Reader – Table YAML Configuration</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        background: #f6f8fa;
+        color: #24292e;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 260px;
+        background: #ffffff;
+        border-right: 1px solid #e1e4e8;
+        padding: 20px;
+        height: 100vh;
+        position: fixed;
+        overflow-y: auto;
+    }
+
+    .sidebar h2 {
+        font-size: 14px;
+        text-transform: uppercase;
+        color: #586069;
+        margin-bottom: 10px;
+    }
+
+    .sidebar a {
+        display: block;
+        padding: 6px 0;
+        color: #0366d6;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .sidebar a:hover {
+        text-decoration: underline;
+    }
+
+    /* Main content */
+    .content {
+        margin-left: 280px;
+        padding: 40px;
+        max-width: 900px;
+    }
+
+    h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        margin-top: 40px;
+        border-bottom: 1px solid #e1e4e8;
+        padding-bottom: 6px;
+    }
+
+    code {
+        background: #f6f8fa;
+        padding: 2px 6px;
+        border-radius: 4px;
+    }
+
+    pre {
+        background: #f6f8fa;
+        padding: 14px;
+        border-radius: 6px;
+        overflow-x: auto;
+        border: 1px solid #e1e4e8;
+    }
+
+    .note {
+        background: #fff8c5;
+        padding: 10px;
+        border-left: 4px solid #f2c200;
+        margin: 15px 0;
+    }
+</style>
 </head>
+
 <body>
 
-<h1>How to Configure a Table Template</h1>
-
-<div class="section">
-    <p>
-        A Table template is used when your source file contains multiple rows of structured data,
-        such as invoices, product lists, attendance sheets, reports, or exported forms.
-    </p>
+<div class="sidebar">
+    <h2>Table YAML</h2>
+    <a href="#overview">Overview</a>
+    <a href="#requirements">Requirements</a>
+    <a href="#rules">YAML Rules</a>
+    <a href="#structure">Template Structure</a>
+    <a href="#columns">Columns</a>
+    <a href="#row-detection">Row Detection</a>
+    <a href="#example">Example</a>
+    <a href="#tips">Best Practices</a>
 </div>
 
-<div class="section">
-    <h2>Typical Use Cases</h2>
-    <ul>
-        <li>Invoice item lists</li>
-        <li>Product catalogs</li>
-        <li>Employee records</li>
-        <li>Measurement logs</li>
-        <li>Financial statements</li>
-    </ul>
-</div>
+<div class="content">
 
-<div class="section">
-    <h2>Steps</h2>
-    <ol>
-        <li>Open Template Manager.</li>
-        <li>Create a new template and select <strong>Table</strong>.</li>
-        <li>Choose the input source:
-            <ul>
-                <li>PDF</li>
-                <li>Image</li>
-                <li>Scanned document</li>
-            </ul>
-        </li>
-        <li>Define the table area on the page.</li>
-        <li>Set column positions in the correct order.</li>
-        <li>Assign column names.</li>
-        <li>Choose data types:
-            <ul>
-                <li>Text</li>
-                <li>Number</li>
-                <li>Date</li>
-                <li>Currency</li>
-            </ul>
-        </li>
-        <li>Configure row detection.</li>
-        <li>Save the template.</li>
-        <li>Run OCR and export to CSV.</li>
-    </ol>
-</div>
+<h1>Table Template – YAML Configuration</h1>
 
-<div class="section">
-    <h2>Tips</h2>
-    <ul>
-        <li>Keep columns aligned.</li>
-        <li>Use clean scans for best accuracy.</li>
-        <li>If rows vary in height, enable dynamic row detection.</li>
-    </ul>
+<section id="overview">
+<p>
+The <strong>Table template</strong> is used to extract structured row-based data from documents such as invoices, product lists, reports, or logs.
+Configuration is defined in a YAML file edited manually in a text editor.
+</p>
+</section>
+
+<section id="requirements">
+<h2>Requirements</h2>
+<ul>
+    <li>Any text editor (VS Code, Notepad++, etc.)</li>
+    <li>Basic understanding of YAML syntax</li>
+    <li>Clean input documents (PDF, image, scan)</li>
+</ul>
+</section>
+
+<section id="rules">
+<h2>YAML Rules</h2>
+<ul>
+    <li>Use spaces for indentation (no tabs)</li>
+    <li>Structure is defined by indentation levels</li>
+    <li>Key-value pairs use <code>:</code></li>
+    <li>Lists use <code>-</code></li>
+</ul>
+
+<div class="note">
+Incorrect indentation will break parsing.
+</div>
+</section>
+
+<section id="structure">
+<h2>Template Structure</h2>
+<pre><code>template:
+  type: table
+  name: example_table
+  source: pdf</code></pre>
+</section>
+
+<section id="columns">
+<h2>Columns Definition</h2>
+<p>Each column defines extracted data fields.</p>
+
+<pre><code>columns:
+  - name: item
+    type: text
+  - name: quantity
+    type: number
+  - name: price
+    type: currency</code></pre>
+
+<ul>
+    <li><strong>text</strong> – general string values</li>
+    <li><strong>number</strong> – numeric values</li>
+    <li><strong>date</strong> – date values</li>
+    <li><strong>currency</strong> – monetary values</li>
+</ul>
+</section>
+
+<section id="row-detection">
+<h2>Row Detection</h2>
+<p>
+Row detection defines how OCR separates table rows in the document.
+</p>
+
+<pre><code>row_detection:
+  mode: dynamic
+  tolerance: 5</code></pre>
+</section>
+
+<section id="example">
+<h2>Full Example</h2>
+<pre><code>template:
+  type: table
+  name: invoice_items
+
+source:
+  type: pdf
+
+columns:
+  - name: item
+    type: text
+  - name: quantity
+    type: number
+  - name: price
+    type: currency
+
+row_detection:
+  mode: dynamic
+  tolerance: 5
+</code></pre>
+</section>
+
+<section id="tips">
+<h2>Best Practices</h2>
+<ul>
+    <li>Use high-quality scans for best OCR accuracy</li>
+    <li>Keep column alignment consistent in documents</li>
+    <li>Start with a minimal configuration and extend gradually</li>
+    <li>Validate YAML before using it in OCR Reader</li>
+</ul>
+</section>
+
 </div>
 
 </body>
