@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>OCR Reader – Document YAML Configuration</title>
+
+<meta name="description" content="Learn how to configure a Document YAML template for OCR Reader. Extract structured fields from PDFs and images.">
+<meta name="keywords" content="ocr yaml document, field extraction, ocr config, tesseract yaml">
+
+<link rel="canonical" href="https://martan1484.github.io/OCR_Reader/HowTo_Document_YAML.html">
+
+<style>
+body{font-family:Arial,Helvetica,sans-serif;margin:40px auto;max-width:900px;line-height:1.6}
+h1{margin-bottom:5px}
+nav{margin-top:10px;margin-bottom:30px}
+nav a{margin-right:15px;text-decoration:none;color:#0066cc}
+nav a:hover{text-decoration:underline}
+section{margin-top:50px}
+.card{background:#fafafa;padding:20px;border-radius:8px;border:1px solid #eee}
+code{background:#f4f4f4;padding:2px 6px;border-radius:4px}
+pre{background:#f4f4f4;padding:12px;border-radius:6px;overflow-x:auto;border:1px solid #ddd}
+.note{background:#fff8c5;padding:10px;border-left:4px solid #f2c200;margin:15px 0}
+footer{margin-top:60px;font-size:0.9em;color:#555}
+.button{display:inline-block;padding:10px 16px;background:#009966;color:white;border-radius:6px;text-decoration:none;margin-top:10px}
+</style>
+
+</head>
+<body>
+
+<h1>OCR Reader</h1>
+<p><strong>Document Template – YAML Configuration Guide</strong></p>
+
+<nav>
+<a class="button" href="https://martan1484.github.io/OCR_Reader/">Home</a>
+<a class="button" href="#overview">Overview</a>
+<a class="button" href="#fields">Fields</a>
+<a class="button" href="#areas">Areas</a>
+<a class="button" href="#example">Example</a>
+</nav>
+
+<section id="overview">
+<div class="card">
+
+<h2>Overview</h2>
+
+<p>
+Document templates are used to extract specific fields from documents such as invoices,
+forms, or reports.
+</p>
+
+<p>
+Each field is defined individually with its own position and data type.
+</p>
+
+<div class="note">
+This template is ideal when data is fixed in position (not tabular).
+</div>
+
+</div>
+</section>
+
+<section id="fields">
+<div class="card">
+
+<h2>Fields Definition</h2>
+
+<pre><code>fields:
+  - name: invoice_number
+    type: text
+  - name: date
+    type: date
+  - name: total
+    type: currency</code></pre>
+
+</div>
+</section>
+
+<section id="areas">
+<div class="card">
+
+<h2>Field Areas</h2>
+
+<p>
+Each field requires coordinates defining its position on the document.
+</p>
+
+<pre><code>areas:
+  invoice_number:
+    x: 100
+    y: 150
+    width: 300
+    height: 50
+
+  total:
+    x: 500
+    y: 700
+    width: 200
+    height: 60</code></pre>
+
+</div>
+</section>
+
+<section id="example">
+<div class="card">
+
+<h2>Full Example</h2>
+
+<pre><code>template:
+  type: document
+  name: invoice_header
+
+source:
+  type: pdf
+
+fields:
+  - name: invoice_number
+    type: text
+  - name: date
+    type: date
+  - name: total
+    type: currency
+
+areas:
+  invoice_number:
+    x: 100
+    y: 150
+    width: 300
+    height: 50
+
+  date:
+    x: 400
+    y: 150
+    width: 200
+    height: 50
+
+  total:
+    x: 500
+    y: 700
+    width: 200
+    height: 60
+</code></pre>
+
+</div>
+</section>
+
+<section>
+<div class="card">
+
+<h2>Best Practices</h2>
+
+<ul>
+<li>Use consistent document layouts</li>
+<li>Align coordinates carefully</li>
+<li>Test with multiple samples</li>
+<li>Keep fields simple</li>
+</ul>
+
+<a class="button" href="readme.html">Back to Documentation</a>
+
+</div>
+</section>
+
+<footer>
+<p><strong>Martin Nezval Software</strong></p>
+<p>© 2026</p>
+</footer>
+
+</body>
+</html>
