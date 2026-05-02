@@ -2,147 +2,94 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>OCR Reader – Table YAML Configuration</title>
 
+<meta name="description" content="Learn how to configure a Table YAML template for OCR Reader. Extract structured data from PDFs and images into CSV.">
+<meta name="keywords" content="ocr yaml, table template, ocr to csv, tesseract config, yaml ocr">
+
+<link rel="canonical" href="https://martan1484.github.io/OCR_Reader/HowTo_Table_YAML.html">
+
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        display: flex;
-        background: #f6f8fa;
-        color: #24292e;
-    }
-
-    /* Sidebar */
-    .sidebar {
-        width: 260px;
-        background: #ffffff;
-        border-right: 1px solid #e1e4e8;
-        padding: 20px;
-        height: 100vh;
-        position: fixed;
-        overflow-y: auto;
-    }
-
-    .sidebar h2 {
-        font-size: 14px;
-        text-transform: uppercase;
-        color: #586069;
-        margin-bottom: 10px;
-    }
-
-    .sidebar a {
-        display: block;
-        padding: 6px 0;
-        color: #0366d6;
-        text-decoration: none;
-        font-size: 14px;
-    }
-
-    .sidebar a:hover {
-        text-decoration: underline;
-    }
-
-    /* Main content */
-    .content {
-        margin-left: 280px;
-        padding: 40px;
-        max-width: 900px;
-    }
-
-    h1 {
-        font-size: 28px;
-        margin-bottom: 10px;
-    }
-
-    h2 {
-        margin-top: 40px;
-        border-bottom: 1px solid #e1e4e8;
-        padding-bottom: 6px;
-    }
-
-    code {
-        background: #f6f8fa;
-        padding: 2px 6px;
-        border-radius: 4px;
-    }
-
-    pre {
-        background: #f6f8fa;
-        padding: 14px;
-        border-radius: 6px;
-        overflow-x: auto;
-        border: 1px solid #e1e4e8;
-    }
-
-    .note {
-        background: #fff8c5;
-        padding: 10px;
-        border-left: 4px solid #f2c200;
-        margin: 15px 0;
-    }
+body{font-family:Arial,Helvetica,sans-serif;margin:40px auto;max-width:900px;line-height:1.6}
+h1{margin-bottom:5px}
+nav{margin-top:10px;margin-bottom:30px}
+nav a{margin-right:15px;text-decoration:none;color:#0066cc}
+nav a:hover{text-decoration:underline}
+section{margin-top:50px}
+.card{background:#fafafa;padding:20px;border-radius:8px;border:1px solid #eee}
+code{background:#f4f4f4;padding:2px 6px;border-radius:4px}
+pre{background:#f4f4f4;padding:12px;border-radius:6px;overflow-x:auto;border:1px solid #ddd}
+.note{background:#fff8c5;padding:10px;border-left:4px solid #f2c200;margin:15px 0}
+footer{margin-top:60px;font-size:0.9em;color:#555}
+.button{display:inline-block;padding:10px 16px;background:#009966;color:white;border-radius:6px;text-decoration:none;margin-top:10px}
 </style>
-</head>
 
+</head>
 <body>
 
-<div class="sidebar">
-    <h2>Table YAML</h2>
-    <a href="#overview">Overview</a>
-    <a href="#requirements">Requirements</a>
-    <a href="#rules">YAML Rules</a>
-    <a href="#structure">Template Structure</a>
-    <a href="#columns">Columns</a>
-    <a href="#row-detection">Row Detection</a>
-    <a href="#example">Example</a>
-    <a href="#tips">Best Practices</a>
-</div>
+<h1>OCR Reader</h1>
+<p><strong>Table Template – YAML Configuration Guide</strong></p>
 
-<div class="content">
-
-<h1>Table Template – YAML Configuration</h1>
+<nav>
+<a class="button" href="https://martan1484.github.io/OCR_Reader/">Home</a>
+<a class="button" href="#overview">Overview</a>
+<a class="button" href="#structure">Structure</a>
+<a class="button" href="#columns">Columns</a>
+<a class="button" href="#rows">Row Detection</a>
+<a class="button" href="#example">Example</a>
+</nav>
 
 <section id="overview">
+<div class="card">
+
+<h2>Overview</h2>
+
 <p>
-The <strong>Table template</strong> is used to extract structured row-based data from documents such as invoices, product lists, reports, or logs.
-Configuration is defined in a YAML file edited manually in a text editor.
+Table templates are used to extract structured row-based data such as invoice items,
+product lists, or reports.
 </p>
-</section>
 
-<section id="requirements">
-<h2>Requirements</h2>
-<ul>
-    <li>Any text editor (VS Code, Notepad++, etc.)</li>
-    <li>Basic understanding of YAML syntax</li>
-    <li>Clean input documents (PDF, image, scan)</li>
-</ul>
-</section>
-
-<section id="rules">
-<h2>YAML Rules</h2>
-<ul>
-    <li>Use spaces for indentation (no tabs)</li>
-    <li>Structure is defined by indentation levels</li>
-    <li>Key-value pairs use <code>:</code></li>
-    <li>Lists use <code>-</code></li>
-</ul>
+<p>
+Configuration is defined in a <strong>YAML file</strong> which must be created manually
+in a text editor. OCR Reader does not include a built-in YAML editor.
+</p>
 
 <div class="note">
-Incorrect indentation will break parsing.
+Always use spaces for indentation. Incorrect formatting will break parsing.
+</div>
+
 </div>
 </section>
 
 <section id="structure">
-<h2>Template Structure</h2>
+<div class="card">
+
+<h2>Basic Template Structure</h2>
+
 <pre><code>template:
   type: table
-  name: example_table
-  source: pdf</code></pre>
+  name: invoice_items
+
+source:
+  type: pdf</code></pre>
+
+<p>
+This defines the template type and input source.
+</p>
+
+</div>
 </section>
 
 <section id="columns">
+<div class="card">
+
 <h2>Columns Definition</h2>
-<p>Each column defines extracted data fields.</p>
+
+<p>
+Columns define the structure of extracted data.
+</p>
 
 <pre><code>columns:
   - name: item
@@ -152,27 +99,43 @@ Incorrect indentation will break parsing.
   - name: price
     type: currency</code></pre>
 
+<h3>Supported data types</h3>
 <ul>
-    <li><strong>text</strong> – general string values</li>
-    <li><strong>number</strong> – numeric values</li>
-    <li><strong>date</strong> – date values</li>
-    <li><strong>currency</strong> – monetary values</li>
+<li><strong>text</strong> – general text</li>
+<li><strong>number</strong> – numeric values</li>
+<li><strong>date</strong> – date values</li>
+<li><strong>currency</strong> – monetary values</li>
 </ul>
+
+</div>
 </section>
 
-<section id="row-detection">
+<section id="rows">
+<div class="card">
+
 <h2>Row Detection</h2>
+
 <p>
-Row detection defines how OCR separates table rows in the document.
+Row detection controls how individual rows are separated.
 </p>
 
 <pre><code>row_detection:
   mode: dynamic
   tolerance: 5</code></pre>
+
+<ul>
+<li><strong>dynamic</strong> – automatically detects row height</li>
+<li><strong>tolerance</strong> – sensitivity of row separation</li>
+</ul>
+
+</div>
 </section>
 
 <section id="example">
+<div class="card">
+
 <h2>Full Example</h2>
+
 <pre><code>template:
   type: table
   name: invoice_items
@@ -192,19 +155,31 @@ row_detection:
   mode: dynamic
   tolerance: 5
 </code></pre>
-</section>
-
-<section id="tips">
-<h2>Best Practices</h2>
-<ul>
-    <li>Use high-quality scans for best OCR accuracy</li>
-    <li>Keep column alignment consistent in documents</li>
-    <li>Start with a minimal configuration and extend gradually</li>
-    <li>Validate YAML before using it in OCR Reader</li>
-</ul>
-</section>
 
 </div>
+</section>
+
+<section>
+<div class="card">
+
+<h2>Best Practices</h2>
+
+<ul>
+<li>Use clean, high-quality input documents</li>
+<li>Keep table columns visually aligned</li>
+<li>Start simple and extend gradually</li>
+<li>Validate YAML before loading</li>
+</ul>
+
+<a class="button" href="https://martan1484.github.io/OCR_Reader/readme.html">Back to Documentation</a>
+
+</div>
+</section>
+
+<footer>
+<p><strong>Martin Nezval Software</strong></p>
+<p>© 2026</p>
+</footer>
 
 </body>
 </html>
